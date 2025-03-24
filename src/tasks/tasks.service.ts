@@ -19,15 +19,8 @@ export class TasksService {
     return task;
   }
 
-  async createTask(createTaskDto: CreateTaskDto): Promise<Task> {
-    const { title, description } = createTaskDto;
-    const task = this.tasksRepository.create({
-      title,
-      description,
-      status: TaskStatus.OPEN,
-    });
-
-    return await this.tasksRepository.save(task);
+  createTask(createTaskDto: CreateTaskDto): Promise<Task> {
+    return this.tasksRepository.createTask(createTaskDto);
   }
 
   // getAllTasks(): Task[] {
@@ -48,24 +41,6 @@ export class TasksService {
   //     );
   //   }
   //   return filteredTasks;
-  // }
-  // getTaskById(id: string): Task | undefined {
-  //   const task = this.tasks.find((task) => task.id === id);
-  //   if (!task) {
-  //     throw new NotFoundException(`Task with ID "${id}" not found`);
-  //   }
-  //   return task;
-  // }
-  // createTask(createTaskDto: CreateTaskDto): Task {
-  //   const { title, description } = createTaskDto;
-  //   const task: Task = {
-  //     id: uuid(),
-  //     title,
-  //     description,
-  //     status: TaskStatus.OPEN,
-  //   };
-  //   this.tasks.push(task);
-  //   return task;
   // }
   // deleteTask(id: string): void {
   //   this.tasks = this.tasks.filter((task) => task.id !== id);
