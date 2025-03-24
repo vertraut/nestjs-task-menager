@@ -50,14 +50,5 @@ export class TasksService {
   //   }
   //   return filteredTasks;
   // }
-  // deleteTask(id: string): void {
-  //   this.tasks = this.tasks.filter((task) => task.id !== id);
-  // }
-  // updateTaskStatus(id: string, newStatus: TaskStatus) {
-  //   const task = this.getTaskById(id);
-  //   if (task) {
-  //     task.status = newStatus;
-  //   }
-  //   return task;
-  // }
+
 }

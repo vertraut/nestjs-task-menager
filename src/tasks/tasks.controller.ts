@@ -29,8 +29,8 @@ export class TasksController {
   }
 
   @Delete('/:id')
-  async deleteTask(@Param('id') id: string): Promise<void> {
-    await this.tasksService.deleteTask(id);
+  deleteTask(@Param('id') id: string): Promise<void> {
+    return this.tasksService.deleteTask(id);
   }
 
   // @Get()
@@ -42,16 +42,6 @@ export class TasksController {
   //   }
 
   //   return this.tasksService.getAllTasks();
-  // }
-
-  // @Get('/:id')
-  // getTaskById(@Param('id') id: string): Task | undefined {
-  //   return this.tasksService.getTaskById(id);
-  // }
-
-  // @Post()
-  // createTask(@Body() createTaskDto: CreateTaskDto): Task {
-  //   return this.tasksService.createTask(createTaskDto);
   // }
 
   // @Patch('/:id/status')
