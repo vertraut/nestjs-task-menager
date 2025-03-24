@@ -23,6 +23,11 @@ export class TasksController {
     return this.tasksService.getTaskById(id);
   }
 
+  @Post()
+  createTask(@Body() createTaskDto: CreateTaskDto) {
+    return this.tasksService.createTask(createTaskDto);
+  }
+
   // @Get()
   // getTasks(@Query() filterDto: GetTasksFilterDto): Task[] {
   //   // if we have any filters defined, call tasksService.getTasksWithFilters
