@@ -31,6 +31,16 @@ export class TasksService {
     }
   }
 
+  async updateTaskStatus(id: string, newStatus: TaskStatus) {
+    const task = await this.getTaskById(id);
+    if (!task) {
+      throw new NotFoundException(`Task with ID "${id}" not found`);
+    }
+    task.status = newStatus;
+    await this.tasksRepository.save(task);
+    return task;
+  }
+
   // getAllTasks(): Task[] {
   //   return this.tasks;
   // }
@@ -50,5 +60,4 @@ export class TasksService {
   //   }
   //   return filteredTasks;
   // }
-
 }
