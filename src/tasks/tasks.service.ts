@@ -9,6 +9,10 @@ import { Task } from './task.entity';
 export class TasksService {
   constructor(private readonly tasksRepository: TasksRepository) {}
 
+  getTasks(filterDto: GetTasksFilterDto): Promise<Task[]> {
+    return this.tasksRepository.getTasks(filterDto);
+  }
+
   async getTaskById(id: string): Promise<Task> {
     const task = await this.tasksRepository.findOneBy({ id });
 
@@ -40,24 +44,4 @@ export class TasksService {
     await this.tasksRepository.save(task);
     return task;
   }
-
-  // getAllTasks(): Task[] {
-  //   return this.tasks;
-  // }
-  // getTasksWithFilters(filterDto: GetTasksFilterDto): Task[] {
-  //   const { status, search } = filterDto;
-  //   let filteredTasks: Task[] = this.getAllTasks();
-  //   if (status) {
-  //     filteredTasks = filteredTasks.filter((task) => task.status === status);
-  //   }
-  //   if (search) {
-  //     const normalizedSearch = search.toLowerCase();
-  //     filteredTasks = filteredTasks.filter(
-  //       (task) =>
-  //         task.title.toLowerCase().includes(normalizedSearch) ||
-  //         task.description.toLowerCase().includes(normalizedSearch),
-  //     );
-  //   }
-  //   return filteredTasks;
-  // }
 }
