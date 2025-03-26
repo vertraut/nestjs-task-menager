@@ -3,24 +3,33 @@ import { UsersRepository } from './users.repository';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 import { throwUnauthorized } from '../utils/errorHandler';
 import * as bcrypt from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';
+import { JwtPayload } from './jwt-payload.interface';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly usersRepository: UsersRepository) {}
+  constructor(
+    private readonly usersRepository: UsersRepository,
+    private jwtService: JwtService,
+  ) {}
 
   signUp(authCredentialDto: AuthCredentialsDto): Promise<void> {
     return this.usersRepository.createUser(authCredentialDto);
   }
 
-  async sighIn(authCredentialDto: AuthCredentialsDto): Promise<string> {
+  async sighIn(
+    authCredentialDto: AuthCredentialsDto,
+  ): Promise<{ accessToken: string }> {
     const { username, password } = authCredentialDto;
 
     const user = await this.usersRepository.getUserByUsername(username);
 
     const isValidPassword = await bcrypt.compare(password, user.password);
 
-    if (!isValidPassword) {
-      return 'success';
+    if (isValidPassword) {
+      const payload: JwtPayload = { username };
+      const accessToken: string = this.jwtService.sign(payload);
+      return { accessToken };
     } else {
       throwUnauthorized();
     }
