@@ -15,16 +15,14 @@ export class AuthService {
   async sighIn(authCredentialDto: AuthCredentialsDto): Promise<string> {
     const { username, password } = authCredentialDto;
 
-    const user = await this.usersRepository.findOne({ where: { username } });
-
-    if (!user) {
-      throwUnauthorized();
-    }
+    const user = await this.usersRepository.getUserByUsername(username);
 
     const isValidPassword = await bcrypt.compare(password, user.password);
-    if (isValidPassword) {
+
+    if (!isValidPassword) {
       return 'success';
+    } else {
+      throwUnauthorized();
     }
-    throwUnauthorized();
   }
 }

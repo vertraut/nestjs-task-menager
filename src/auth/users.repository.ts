@@ -8,6 +8,7 @@ import { DataSource, Repository } from 'typeorm';
 import { User } from './user.entity';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 import { PostgresError } from '../types/postgressTypes';
+import { throwUnauthorized } from '../utils/errorHandler';
 @Injectable()
 export class UsersRepository extends Repository<User> {
   constructor(dataSource: DataSource) {
@@ -28,5 +29,14 @@ export class UsersRepository extends Repository<User> {
         throw new InternalServerErrorException();
       }
     }
+  }
+
+  async getUserByUsername(username: string): Promise<User> {
+    const user = await this.findOne({ where: { username } });
+    if (!user) {
+      throwUnauthorized();
+    }
+
+    return user;
   }
 }
