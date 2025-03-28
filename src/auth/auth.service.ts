@@ -28,7 +28,7 @@ export class AuthService {
 
     if (isValidPassword) {
       const payload: JwtPayload = { username };
-      const accessToken: string = this.jwtService.sign(payload);
+      const accessToken: string = await this.jwtService.signAsync(payload);
       return { accessToken };
     } else {
       throwUnauthorized();
