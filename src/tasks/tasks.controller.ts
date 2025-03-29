@@ -18,6 +18,7 @@ import { User } from 'src/auth/user.entity';
 import { GetUser } from 'src/auth/get-user.decorator';
 import { JwtAuthGuard } from 'src/auth/jwt-guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('tasks')
 export class TasksController {
   constructor(private tasksService: TasksService) {}
@@ -32,7 +33,6 @@ export class TasksController {
     return this.tasksService.getTaskById(id);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Post()
   createTask(
     @Body() createTaskDto: CreateTaskDto,
