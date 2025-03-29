@@ -24,7 +24,7 @@ export class TasksRepository extends Repository<Task> {
 
     if (search) {
       query.andWhere(
-        'LOWER(task.title) LIKE LOWER(:search) OR LOWER(task.description) LIKE LOWER(:search)', //It allows searching for partial matches using '%' (wildcard)
+        '(LOWER(task.title) LIKE LOWER(:search) OR LOWER(task.description) LIKE LOWER(:search))', //It allows searching for partial matches using '%' (wildcard)
         { search: `%${search}%` }, // % The '%' wildcard allows partial matching in SQL, not an exact full-sentence match.
       );
     }
