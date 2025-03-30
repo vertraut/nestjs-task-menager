@@ -13,16 +13,23 @@ import { configValidationSchema } from './config.schema';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        type: 'postgres',
-        autoLoadEntities: true,
-        synchronize: true,
-        host: configService.get('DB_HOST'),
-        username: configService.get('DB_USERNAME'),
-        password: configService.get('DB_PASSWORD'),
-        port: configService.get('DB_PORT'),
-        database: configService.get('DB_DATABASE'),
-      }),
+      useFactory: (configService: ConfigService) => {
+        const isProd = configService.get('STAGE') === 'prod';
+        return {
+          ssl: isProd,
+          extra: {
+            ssl: isProd ? { rejectUnauthorized: false } : null,
+          },
+          type: 'postgres',
+          autoLoadEntities: true,
+          synchronize: true,
+          host: configService.get('DB_HOST'),
+          username: configService.get('DB_USERNAME'),
+          password: configService.get('DB_PASSWORD'),
+          port: configService.get('DB_PORT'),
+          database: configService.get('DB_DATABASE'),
+        };
+      },
     }),
     TasksModule,
     AuthModule,
