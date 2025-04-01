@@ -14,9 +14,9 @@ import { CreateTaskDto } from './dto/create-task.dto';
 import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
 import { UpdateTaskStatus } from './dto/update-task-status.dto';
 import { Task } from './task.entity';
-import { User } from 'src/auth/user.entity';
-import { GetUser } from 'src/auth/get-user.decorator';
-import { JwtAuthGuard } from 'src/auth/jwt-guard';
+import { User } from '../auth/user.entity';
+import { GetUser } from '../auth/get-user.decorator';
+import { JwtAuthGuard } from '../auth/jwt-guard';
 import { Logger } from '@nestjs/common';
 
 @UseGuards(JwtAuthGuard)
